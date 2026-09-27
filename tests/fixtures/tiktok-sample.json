@@ -1,0 +1,134 @@
+[
+ {
+  "id": "1",
+  "text": "How to pack a carry-on in 5 steps for a two-week trip",
+  "createTimeISO": "2026-02-11T10:00:00.000Z",
+  "webVideoUrl": "https://www.tiktok.com/@demo.brand/video/1",
+  "diggCount": 100,
+  "shareCount": 1,
+  "playCount": 1000,
+  "collectCount": 2,
+  "commentCount": 1,
+  "isSlideshow": false,
+  "isAd": false,
+  "isSponsored": false,
+  "isPinned": false,
+  "isStory": false,
+  "videoMeta": {
+   "duration": 20
+  },
+  "authorMeta": {
+   "fans": 1200
+  }
+ },
+ {
+  "id": "2",
+  "text": "Checklist: documents to bring",
+  "createTimeISO": "2026-03-12T10:00:00.000Z",
+  "webVideoUrl": "https://www.tiktok.com/@demo.brand/video/2",
+  "diggCount": 40,
+  "shareCount": 2,
+  "playCount": 800,
+  "collectCount": 4,
+  "commentCount": 2,
+  "isSlideshow": true,
+  "isAd": false,
+  "isSponsored": false,
+  "isPinned": false,
+  "isStory": false,
+  "videoMeta": {
+   "duration": 0
+  },
+  "authorMeta": {
+   "fans": 1200
+  }
+ },
+ {
+  "id": "3",
+  "text": "Our new package is here, book now",
+  "createTimeISO": "2026-04-13T10:00:00.000Z",
+  "webVideoUrl": "https://www.tiktok.com/@demo.brand/video/3",
+  "diggCount": 100,
+  "shareCount": 3,
+  "playCount": 20000,
+  "collectCount": 6,
+  "commentCount": 3,
+  "isSlideshow": false,
+  "isAd": false,
+  "isSponsored": false,
+  "isPinned": false,
+  "isStory": false,
+  "videoMeta": {
+   "duration": 20
+  },
+  "authorMeta": {
+   "fans": 1200
+  }
+ },
+ {
+  "id": "4",
+  "text": "Who wants to travel with their parents this year?",
+  "createTimeISO": "2026-05-14T10:00:00.000Z",
+  "webVideoUrl": "https://www.tiktok.com/@demo.brand/video/4",
+  "diggCount": 300,
+  "shareCount": 4,
+  "playCount": 3000,
+  "collectCount": 8,
+  "commentCount": 4,
+  "isSlideshow": false,
+  "isAd": true,
+  "isSponsored": false,
+  "isPinned": false,
+  "isStory": false,
+  "videoMeta": {
+   "duration": 20
+  },
+  "authorMeta": {
+   "fans": 1200
+  }
+ },
+ {
+  "id": "5",
+  "text": "Testimonial from Mrs Ana about her first trip",
+  "createTimeISO": "2026-06-15T10:00:00.000Z",
+  "webVideoUrl": "https://www.tiktok.com/@demo.brand/video/5",
+  "diggCount": 60,
+  "shareCount": 5,
+  "playCount": 600,
+  "collectCount": 10,
+  "commentCount": 5,
+  "isSlideshow": false,
+  "isAd": false,
+  "isSponsored": false,
+  "isPinned": false,
+  "isStory": false,
+  "videoMeta": {
+   "duration": 20
+  },
+  "authorMeta": {
+   "fans": 1200
+  }
+ },
+ {
+  "id": "6",
+  "text": "A story that should be skipped",
+  "createTimeISO": "2026-01-16T10:00:00.000Z",
+  "webVideoUrl": "https://www.tiktok.com/@demo.brand/video/6",
+  "diggCount": 70,
+  "shareCount": 6,
+  "playCount": 700,
+  "collectCount": 12,
+  "commentCount": 6,
+  "isSlideshow": false,
+  "isAd": false,
+  "isSponsored": false,
+  "isPinned": false,
+  "isStory": true,
+  "videoMeta": {
+   "duration": 20
+  },
+  "authorMeta": {
+   "fans": 1200
+  }
+ }
+]

@@ -1,0 +1,54 @@
+[
+ {
+  "shortCode": "REEL1",
+  "type": "Video",
+  "url": "https://www.instagram.com/p/REEL1/",
+  "timestamp": "2026-03-01T10:00:00.000Z",
+  "likesCount": 10,
+  "commentsCount": 1,
+  "videoPlayCount": 500,
+  "videoDuration": 30,
+  "caption": "How to pack a carry-on in 5 steps for a two-week trip",
+  "isPinned": false,
+  "paidPartnership": false
+ },
+ {
+  "shortCode": "CARO1",
+  "type": "Sidecar",
+  "url": "https://www.instagram.com/p/CARO1/",
+  "timestamp": "2026-03-01T10:00:00.000Z",
+  "likesCount": 20,
+  "commentsCount": 2,
+  "videoPlayCount": null,
+  "videoDuration": null,
+  "caption": "Checklist: documents to bring",
+  "isPinned": false,
+  "paidPartnership": false
+ },
+ {
+  "shortCode": "IMG1",
+  "type": "Image",
+  "url": "https://www.instagram.com/p/IMG1/",
+  "timestamp": "2026-03-01T10:00:00.000Z",
+  "likesCount": 900,
+  "commentsCount": 5,
+  "videoPlayCount": null,
+  "videoDuration": null,
+  "caption": "Giveaway! Tag three friends",
+  "isPinned": false,
+  "paidPartnership": false
+ },
+ {
+  "shortCode": "REEL2",
+  "type": "Video",
+  "url": "https://www.instagram.com/p/REEL2/",
+  "timestamp": "2026-03-01T10:00:00.000Z",
+  "likesCount": 200,
+  "commentsCount": 3,
+  "videoPlayCount": 50000,
+  "videoDuration": 40,
+  "caption": "Our new package is here",
+  "isPinned": false,
+  "paidPartnership": false
+ }
+]
