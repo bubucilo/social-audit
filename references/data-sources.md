@@ -2,11 +2,16 @@
 
 ## TikTok: `clockworks/tiktok-scraper` (primary)
 ```json
-{"profiles": ["<handle>"], "resultsPerPage": 1000, "profileScrapeSections": ["videos"],
- "profileSorting": "latest", "shouldDownloadVideos": false, "shouldDownloadCovers": false,
+{"profiles": ["<handle>"], "resultsPerPage": 300, "profileScrapeSections": ["videos"],
+ "profileSorting": "latest", "oldestPostDateUnified": "180",
+ "shouldDownloadVideos": false, "shouldDownloadCovers": false,
  "shouldDownloadSlideshowImages": false, "shouldDownloadSubtitles": false}
 ```
-- Returns every post; a 273-post account finished in under a minute.
+- **Window = last 180 days.** `oldestPostDateUnified` takes days back (or a date) and only
+  works with `latest`/`oldest` sorting. It is a *charged* filter. If you'd rather not pay
+  for it, drop it and cap `resultsPerPage` at ~1.3× (posts per week × 26), because
+  normalize trims to 180 days either way.
+- A 273-post full history finished in under a minute.
 - Fields used: `playCount diggCount commentCount collectCount shareCount isSlideshow
   isAd isSponsored isPinned createTimeISO videoMeta.duration text webVideoUrl authorMeta.fans`.
 - `isAd` is TikTok's own promoted marker. It caught promoted posts that had normal
@@ -15,8 +20,14 @@
 ## Instagram: `apify/instagram-scraper` (primary)
 ```json
 {"directUrls": ["https://www.instagram.com/<handle>/"], "resultsType": "posts",
- "resultsLimit": 1000, "addParentData": false}
+ "resultsLimit": 300, "onlyPostsNewerThan": "180 days", "addParentData": false}
 ```
+- **Window = last 180 days** via `onlyPostsNewerThan` (UTC; also accepts `YYYY-MM-DD`).
+  Pinned posts may still come through, and normalize drops them if they're older.
+  `resultsLimit` 300 is a cost cap (≈11 posts/day); raise it only for very high-volume accounts.
+- Cost: pay-per-result, $0.0027/post on the free tier ($0.0023 bronze … $0.0005 diamond).
+  A full-history pull of a 947-post account cost ~$2.56; its 180-day
+  window would have been ~170 posts ≈ $0.46.
 - A 434-post profile took about 2 minutes and returned 371 posts; the gap is archived or
   deleted posts.
 - Fields used: `type (Video|Sidecar|Image) likesCount commentsCount videoPlayCount

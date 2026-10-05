@@ -2,8 +2,11 @@
 """Normalize an Apify TikTok or Instagram dataset into one posts CSV + a captions file.
 
 Usage:
-  normalize.py --platform tiktok    --raw RUN/raw/tiktok-apify.json    --run RUN
-  normalize.py --platform instagram --raw RUN/raw/instagram-apify.json --run RUN [--extra RUN/raw/instagram-xpoz.json]
+  normalize.py --platform tiktok    --raw RUN/raw/tiktok-apify.json    --run RUN [--days 180]
+  normalize.py --platform instagram --raw RUN/raw/instagram-apify.json --run RUN [--days 180] [--extra RUN/raw/instagram-xpoz.json]
+
+--days: audit window, default 180 (6 months back from today). Posts older than the
+cutoff are dropped, so a pull that overshoots still yields a 6-month audit. --days 0 = all.
 
 Writes:
   RUN/data/posts-<platform>.csv   one row per post, unified schema (see COLUMNS)
@@ -13,7 +16,7 @@ Prints a one-line profile summary (followers when the dataset carries it).
 --extra: optional JSON list of {"shortcode"|"id", "shares", "saves"} (e.g. from Xpoz)
 merged into posts that match; IG hides these publicly so Apify leaves them empty.
 """
-import argparse, csv, json, os, re, sys
+import argparse, csv, datetime, json, os, re, sys
 
 COLUMNS = ["id", "url", "date", "platform", "format", "duration_s", "views",
            "likes", "comments", "saves", "shares", "pinned", "paid_marker", "caption"]
@@ -111,6 +114,7 @@ def main():
     ap.add_argument("--raw", required=True)
     ap.add_argument("--run", required=True, help="run folder, e.g. research/social-audit/<handle>/<date>")
     ap.add_argument("--extra")
+    ap.add_argument("--days", type=int, default=180, help="audit window in days back from today; 0 = no cutoff")
     a = ap.parse_args()
 
     items = json.load(open(a.raw))
@@ -127,6 +131,13 @@ def main():
         if r["id"] not in seen:
             seen.add(r["id"]); uniq.append(r)
     rows = uniq
+    if a.days:
+        cutoff = (datetime.date.today() - datetime.timedelta(days=a.days)).isoformat()
+        before = len(rows)
+        rows = [r for r in rows if r["date"] >= cutoff]
+        print(f"window: last {a.days} days (since {cutoff}) · kept {len(rows)} of {before} posts", file=sys.stderr)
+        if not rows:
+            sys.exit(f"ERROR: no posts since {cutoff} — account inactive in the window; rerun with --days 0 and say so")
 
     os.makedirs(os.path.join(a.run, "data"), exist_ok=True)
     out = os.path.join(a.run, "data", f"posts-{a.platform}.csv")

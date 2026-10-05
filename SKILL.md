@@ -68,7 +68,13 @@ outputs anywhere else; a re-audit gets a new date folder.
 - If a previous run exists in `research/social-audit/<handle>/`, start from its
   `pillar-rules.json` and compare against its baselines.
 
-### 1. Pull every post (Apify is the source of record)
+### 1. Pull the last 180 days (Apify is the source of record)
+**Default window = 6 months (180 days) back from the run date.** Apify bills per result
+(~$0.0027/post on the free tier), so a full-history pull of a 950-post account costs ~$2.56
+while 6 months costs well under $1. Pass the date filter in the actor input (see
+`references/data-sources.md`), and normalize trims to the same window anyway. Go further back
+only when the user asks (e.g. a year-on-year comparison). Then say so and pass `--days 0`
+or the asked window to normalize.
 See `references/data-sources.md` for exact actor inputs and fallbacks.
 1. Apify `call-actor` with the platform's actor (`waitSecs: 45`), then `get-actor-run`
    until `SUCCEEDED`. Note the default dataset id.
@@ -83,15 +89,16 @@ See `references/data-sources.md` for exact actor inputs and fallbacks.
    that list to `raw/instagram-xpoz.json` and pass it as `--extra` below.
 
 Don't use Xpoz for the post list: it caches only a handful of recent posts per
-account. If the pulled count is short of the profile's post count, say so.
+account. The profile's total post count will be higher than a 6-month pull. That is
+expected, so don't report it as a gap. State the window in the audit's first lines.
 
 ### 2. Normalize
 ```bash
-python3 "$S/normalize.py" --platform tiktok    --raw "$RUN/raw/tiktok-apify.json"    --run "$RUN"
+python3 "$S/normalize.py" --platform tiktok    --raw "$RUN/raw/tiktok-apify.json"    --run "$RUN"   # --days 180 is the default
 python3 "$S/normalize.py" --platform instagram --raw "$RUN/raw/instagram-apify.json" --run "$RUN" [--extra "$RUN/raw/instagram-xpoz.json"]
 ```
-Compare the post count with the profile's count. An IG gap is usually archived posts;
-state the gap in the audit.
+normalize prints the window and how many posts it kept. If the first kept post is
+much newer than the cutoff, the pull may have been cut short (limit hit), so say so.
 
 ### 3. Categorize (model judgment, script-applied)
 1. Read `captions-<platform>.txt` in full, paging with Read if needed. Every caption

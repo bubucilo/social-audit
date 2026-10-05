@@ -20,8 +20,8 @@ def run(script, *args, ok=True):
 class Pipeline(unittest.TestCase):
     def setUp(self):
         self.run_dir = tempfile.mkdtemp()
-        run("normalize.py", "--platform", "tiktok", "--raw", os.path.join(FIX, "tiktok-sample.json"), "--run", self.run_dir)
-        run("normalize.py", "--platform", "instagram", "--raw", os.path.join(FIX, "instagram-sample.json"), "--run", self.run_dir)
+        run("normalize.py", "--platform", "tiktok", "--raw", os.path.join(FIX, "tiktok-sample.json"), "--run", self.run_dir, "--days", "0")
+        run("normalize.py", "--platform", "instagram", "--raw", os.path.join(FIX, "instagram-sample.json"), "--run", self.run_dir, "--days", "0")
         self.rules = os.path.join(self.run_dir, "rules.json")
         json.dump({"pillars": {"HOWTO": "", "TESTIMONIAL": "", "PROMO": "", "EMOTIONAL": ""},
                    "rules": [["TESTIMONIAL", "(?i)testimonial"], ["PROMO", "(?i)package|book now"], ["HOWTO", "(?i)how to|checklist"]],
@@ -29,6 +29,18 @@ class Pipeline(unittest.TestCase):
 
     def posts(self, platform):
         return {r["id"]: r for r in csv.DictReader(open(os.path.join(self.run_dir, "data", f"posts-{platform}.csv")))}
+
+    def test_default_window_drops_posts_older_than_180_days(self):
+        # Apify bills per post; audits default to 6 months, so older posts must never reach the baseline.
+        import datetime
+        d = tempfile.mkdtemp()
+        today = datetime.date.today()
+        items = [{"shortCode": "new", "type": "Image", "timestamp": (today - datetime.timedelta(days=10)).isoformat() + "T00:00:00.000Z", "likesCount": 5, "commentsCount": 0},
+                 {"shortCode": "old", "type": "Image", "timestamp": (today - datetime.timedelta(days=200)).isoformat() + "T00:00:00.000Z", "likesCount": 5, "commentsCount": 0}]
+        raw = os.path.join(d, "ig.json"); json.dump(items, open(raw, "w"))
+        run("normalize.py", "--platform", "instagram", "--raw", raw, "--run", d)
+        ids = {r["id"] for r in csv.DictReader(open(os.path.join(d, "data", "posts-instagram.csv")))}
+        self.assertEqual(ids, {"new"})
 
     def test_tiktok_slideshows_are_their_own_format(self):
         # Slideshows and videos are judged separately in the audit, so the flag must survive normalization.
